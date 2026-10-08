@@ -404,8 +404,12 @@ static int btaml_fops_open(struct inode *inode, struct file *file)
 static int amlbt_sdio_probe(struct platform_device *dev)
 {
     int ret = bt_aml_insmod();
+    unsigned int reg_value;
 
-    unsigned int reg_value = g_w1_hif_ops.bt_hi_read_word(RG_AON_A15);
+    if (ret)
+        return ret;
+
+    reg_value = g_w1_hif_ops.bt_hi_read_word(RG_AON_A15);
 
     amlbt_early_suspend.level = EARLY_SUSPEND_LEVEL_DISABLE_FB;
     amlbt_early_suspend.suspend = bt_earlysuspend;
@@ -426,6 +430,7 @@ static int amlbt_sdio_remove(struct platform_device *dev)
 {
     printk("%s \n", __func__);
 
+    unregister_early_suspend(&amlbt_early_suspend);
     bt_aml_rmmod();
 
     return 0;
