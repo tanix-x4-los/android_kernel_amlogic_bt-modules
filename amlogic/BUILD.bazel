@@ -1,0 +1,17 @@
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+exports_files(["Makefile"])
+
+filegroup(
+    name = "sdio_bt_srcs",
+    srcs = ["Makefile"] + glob(
+        ["sdio_driver_bt/**"],
+        exclude = [
+            "**/BUILD.bazel",
+            "**/*.bzl",
+            ".git/**",
+        ],
+    ),
+)

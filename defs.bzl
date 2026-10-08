@@ -26,3 +26,13 @@ def rtk_btusb_module(name, kernel_build):
         outs = ["rtk_btusb.ko"],
         kernel_build = kernel_build,
     )
+
+def aml_sdio_bt_module(name, kernel_build, deps):
+    kernel_module(
+        name = name,
+        srcs = ["//vendor/amlogic/bt-modules/amlogic:sdio_bt_srcs"],
+        makefile = ["//vendor/amlogic/bt-modules/amlogic:Makefile"],
+        outs = ["sdio_bt.ko"],
+        deps = deps,
+        kernel_build = kernel_build,
+    )
